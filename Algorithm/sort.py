@@ -1,8 +1,11 @@
-import os
+import os,sys
+import datetime
+from time import localtime,strftime
 
 class Alignment:
     def __init__(self):
         self.dir_list = os.listdir()
+        self.dir = os.getcwd()
 
     #이름
     def sort_name(self,rever):
@@ -28,6 +31,19 @@ class Alignment:
         
         return exp_list,exp_content_list
 
+    #수정된 시간기준
+    def sort_time(self):
+        time_list = list(self.dir_list)
+        
+        for i in range(0,len(time_list)):
+            for j in range(0,len(time_list)):
+                before_file = datetime.datetime.fromtimestamp(os.path.getmtime(self.dir+"\\"+time_list[i]))
+                after_file = datetime.datetime.fromtimestamp(os.path.getmtime(self.dir+"\\"+time_list[j]))
+                if before_file > after_file :
+                    (time_list[i], time_list[j]) = (time_list[j], time_list[i])
+        
+        return time_list
+
 #test
 sort_list = Alignment()
-print(sort_list.sort_name(False))
+print(sort_list.sort_time())

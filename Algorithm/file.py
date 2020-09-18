@@ -44,4 +44,5 @@ class FileSystem:
     
     #파일/디렉토리 정보
     def file_info(self,names):
-        #more update!
+        #more update
+        return names
