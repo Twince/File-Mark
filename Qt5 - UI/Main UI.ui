@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1139</width>
+    <height>738</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTreeView" name="tree_view">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>221</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string>Tree View</string>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>0</y>
+      <width>1131</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="widget">
+     <attribute name="title">
+      <string>홈</string>
+     </attribute>
+     <widget class="QPushButton" name="new_folder_btn">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>10</y>
+        <width>61</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>새로운 폴더 생성</string>
+      </property>
+      <property name="statusTip">
+       <string>새로운 폴더 생성</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>Icons/AddNewFolder.png</normaloff>Icons/AddNewFolder.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>48</width>
+        <height>48</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="file_contorl_group">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>2</y>
+        <width>471</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>파일 컨트롤</string>
+      </property>
+      <widget class="QComboBox" name="type_select">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>18</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>전체</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>폴더</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>파일</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QPushButton" name="move_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>17</y>
+         <width>53</width>
+         <height>53</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Icons/File Move.png</normaloff>Icons/File Move.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="copy_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>175</x>
+         <y>17</y>
+         <width>53</width>
+         <height>53</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>복사</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Icons/Copy.png</normaloff>Icons/Copy.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="paste_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>17</y>
+         <width>53</width>
+         <height>53</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>붙여넣기</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Icons/Paste.png</normaloff>Icons/Paste.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="delete_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>305</x>
+         <y>18</y>
+         <width>53</width>
+         <height>53</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Icons/Trash can.png</normaloff>Icons/Trash can.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>123</x>
+         <y>70</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>이동</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>70</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>복사</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>242</x>
+         <y>70</y>
+         <width>51</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>붙여넣기</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>319</x>
+         <y>70</y>
+         <width>31</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>삭제</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="name_change_btn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>10</y>
+         <width>61</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Icons/Change Name.png</normaloff>Icons/Change Name.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>70</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>이름 바꾸기</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>494</x>
+        <y>73</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>새 폴더 추가</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>정렬</string>
+     </attribute>
+     <widget class="QGroupBox" name="criteria_sort_group">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>1</y>
+        <width>211</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>기본 정렬</string>
+      </property>
+      <widget class="QComboBox" name="sort_combobox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>18</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>이름순</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>파일 확장자</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>파일 크기</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QCheckBox" name="up_order">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>기본으로 오름차순으로 설정되어 있음</string>
+       </property>
+       <property name="text">
+        <string>오름차순</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="down_order">
+       <property name="geometry">
+        <rect>
+         <x>84</x>
+         <y>60</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>내림차순</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="advanced_sort_group">
+      <property name="geometry">
+       <rect>
+        <x>228</x>
+        <y>1</y>
+        <width>891</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>세부 정렬</string>
+      </property>
+      <widget class="QPushButton" name="select_sort">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>15</y>
+         <width>75</width>
+         <height>55</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>선택정렬</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLineEdit" name="dir_edit">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>130</y>
+      <width>811</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="search_edit">
+    <property name="geometry">
+     <rect>
+      <x>902</x>
+      <y>130</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="search_btn">
+    <property name="geometry">
+     <rect>
+      <x>1092</x>
+      <y>129</y>
+      <width>38</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Icons/Search.png</normaloff>Icons/Search.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="undo_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Icons/Back.png</normaloff>Icons/Back.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="redo_btn">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>130</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Icons/Foward.png</normaloff>Icons/Foward.png</iconset>
+    </property>
+   </widget>
+   <widget class="QListView" name="list_view">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>170</y>
+      <width>891</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="statusTip">
+     <string>ListView</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1139</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>설정</string>
+    </property>
+    <addaction name="action"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>To be contiuned...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
