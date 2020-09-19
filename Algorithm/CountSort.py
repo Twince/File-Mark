@@ -20,6 +20,22 @@ class AAlignment:
 
     return sort_list
 
+  def sort_file_dirfile(self):
+    df_list = [[],[]]
+
+    for l in self.dir_list: 
+      if os.path.isdir(l): df_list[0].append(l)
+      elif os.path.isfile(l): df_list[1].append(l)
+
+    return df_list
+      
 # test
-sortt = AAlignment(os.getcwd())
-print(sortt.sort_file_Count(True))
+file_A = AAlignment(os.getcwd())
+
+print("\n포함된 파일 갯수에 따라 정렬된 리스트 :")
+print(file_A.sort_file_Count())
+
+print("\n파일 리스트 :")
+print(file_A.sort_file_dirfile()[0])
+print("\n디렉토리 리스트 :")
+print(file_A.sort_file_dirfile()[1])
