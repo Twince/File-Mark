@@ -8,11 +8,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         #윈도우 이름 / 크기 설정
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1139, 738)
+        #MainWindow.resize(1139, 738)            # 창크기 1139, 738 -> 1140, 740로 변경
+        MainWindow.setFixedSize(1140, 740)       # MainWinodw.FixedSize로 창 크기 고정
 
 
 
@@ -63,7 +65,7 @@ class Ui_MainWindow(object):
         self.move_btn.setGeometry(QtCore.QRect(110, 17, 53, 53))
         self.move_btn.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("Icons/File Move.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(os.path.join(path, "Icons/File Move.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off) #아이콘 표시를 위해 (os.path.join)(path, "아이콘 디렉토리")로 변경
         self.move_btn.setIcon(icon1)
         self.move_btn.setIconSize(QtCore.QSize(50, 50))
         self.move_btn.setObjectName("move_btn")
@@ -76,7 +78,7 @@ class Ui_MainWindow(object):
         self.copy_btn.setGeometry(QtCore.QRect(175, 17, 53, 53))
         self.copy_btn.setText("")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("Icons/Copy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(os.path.join(path, "Icons/Copy.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.copy_btn.setIcon(icon2)
         self.copy_btn.setIconSize(QtCore.QSize(32, 32))
         self.copy_btn.setObjectName("copy_btn")
@@ -89,7 +91,7 @@ class Ui_MainWindow(object):
         self.paste_btn.setGeometry(QtCore.QRect(240, 17, 53, 53))
         self.paste_btn.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("Icons/Paste.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(os.path.join(path,"Icons/Paste.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.paste_btn.setIcon(icon3)
         self.paste_btn.setIconSize(QtCore.QSize(32, 32))
         self.paste_btn.setObjectName("paste_btn")
@@ -102,7 +104,7 @@ class Ui_MainWindow(object):
         self.delete_btn.setGeometry(QtCore.QRect(305, 18, 53, 53))
         self.delete_btn.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("Icons/Trash can.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(os.path.join(path,"Icons/Trash can.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.delete_btn.setIcon(icon4)
         self.delete_btn.setIconSize(QtCore.QSize(32, 32))
         self.delete_btn.setObjectName("delete_btn")
@@ -115,7 +117,7 @@ class Ui_MainWindow(object):
         self.name_change_btn.setGeometry(QtCore.QRect(380, 10, 61, 61))
         self.name_change_btn.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("Icons/Change Name.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(os.path.join(path,"Icons/Change Name.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.name_change_btn.setIcon(icon5)
         self.name_change_btn.setIconSize(QtCore.QSize(48, 48))
         self.name_change_btn.setObjectName("name_change_btn")
@@ -127,7 +129,7 @@ class Ui_MainWindow(object):
         self.new_folder_btn.setGeometry(QtCore.QRect(500, 10, 61, 61))
         self.new_folder_btn.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("Icons/AddNewFolder.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(os.path.join(path,"Icons/AddNewFolder.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.new_folder_btn.setIcon(icon)
         self.new_folder_btn.setIconSize(QtCore.QSize(48, 48))
         self.new_folder_btn.setObjectName("new_folder_btn")
@@ -180,7 +182,7 @@ class Ui_MainWindow(object):
 
 
         #정렬 탭
-        self.tabWidget.addTab(self.tab_sort, "")
+        self.tabWidget.addTab(self.tab_sort, "홈") # ""빈칸을 수정 하여 '홈'을 붙여 디스플레이 시킴
         self.tab_sort = QtWidgets.QWidget()
         self.tab_sort.setObjectName("tab_sort") 
 
@@ -304,47 +306,50 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
 
-#번역할때 쓴다고 함
-    # def retranslateUi(self, MainWindow):
-    #     _translate = QtCore.QCoreApplication.translate
-    #     MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-    #     self.tree_view.setStatusTip(_translate("MainWindow", "Tree View"))
-    #     self.new_folder_btn.setToolTip(_translate("MainWindow", "새로운 폴더 생성"))
-    #     self.new_folder_btn.setStatusTip(_translate("MainWindow", "새로운 폴더 생성"))
-    #     self.file_control_group.setTitle(_translate("MainWindow", "파일 컨트롤"))
-    #     self.type_select.setItemText(0, _translate("MainWindow", "전체"))
-    #     self.type_select.setItemText(1, _translate("MainWindow", "폴더"))
-    #     self.type_select.setItemText(2, _translate("MainWindow", "파일"))
-    #     self.copy_btn.setToolTip(_translate("MainWindow", "복사"))
-    #     self.paste_btn.setToolTip(_translate("MainWindow", "붙여넣기"))
-    #     self.move_label.setText(_translate("MainWindow", "이동"))
-    #     self.copy_label.setText(_translate("MainWindow", "복사"))
-    #     self.paste_label.setText(_translate("MainWindow", "붙여넣기"))
-    #     self.delete_label.setText(_translate("MainWindow", "삭제"))
-    #     self.name_change_label.setText(_translate("MainWindow", "이름 바꾸기"))
-    #     self.new_folder_label.setText(_translate("MainWindow", "새 폴더 추가"))
-    #     self.tabWidget.setTabText(self.tabWidget.indexOf(self.widget), _translate("MainWindow", "홈"))
-    #     self.criteria_sort_group.setTitle(_translate("MainWindow", "기본 정렬"))
-    #     self.sort_combobox.setItemText(0, _translate("MainWindow", "이름순"))
-    #     self.sort_combobox.setItemText(1, _translate("MainWindow", "파일 확장자"))
-    #     self.sort_combobox.setItemText(2, _translate("MainWindow", "파일 크기"))
-    #     self.up_order.setToolTip(_translate("MainWindow", "기본으로 오름차순으로 설정되어 있음"))
-    #     self.up_order.setText(_translate("MainWindow", "오름차순"))
-    #     self.down_order.setText(_translate("MainWindow", "내림차순"))
-    #     self.advanced_sort_group.setTitle(_translate("MainWindow", "세부 정렬"))
-    #     self.select_sort.setText(_translate("MainWindow", "선택정렬"))
-    #     self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_sort), _translate("MainWindow", "정렬"))
-    #     self.list_view.setStatusTip(_translate("MainWindow", "ListView"))
-    #     self.menu.setTitle(_translate("MainWindow", "설정"))
-    #     self.action.setText(_translate("MainWindow", "To be contiuned..."))
+    #번역/
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "파일 마크 - FileMark")) #MainWindow(폼 타이틀)를 '파일 마크 - FileMark로 변경
+        self.tree_view.setStatusTip(_translate("MainWindow", "Tree View"))
+        self.new_folder_btn.setToolTip(_translate("MainWindow", "새로운 폴더 생성"))
+        self.new_folder_btn.setStatusTip(_translate("MainWindow", "새로운 폴더 생성"))
+        self.file_control_group.setTitle(_translate("MainWindow", "파일 컨트롤"))
+        self.type_select.setItemText(0, _translate("MainWindow", "전체"))
+        self.type_select.setItemText(1, _translate("MainWindow", "폴더"))
+        self.type_select.setItemText(2, _translate("MainWindow", "파일"))
+        self.copy_btn.setToolTip(_translate("MainWindow", "복사"))
+        self.paste_btn.setToolTip(_translate("MainWindow", "붙여넣기"))
+        self.move_label.setText(_translate("MainWindow", "이동"))
+        self.copy_label.setText(_translate("MainWindow", "복사"))
+        self.paste_label.setText(_translate("MainWindow", "붙여넣기"))
+        self.delete_label.setText(_translate("MainWindow", "삭제"))
+        self.name_change_label.setText(_translate("MainWindow", "이름 바꾸기"))
+        self.new_folder_label.setText(_translate("MainWindow", "새 폴더 추가"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_sort), _translate("MainWindow", "홈"))  #self.widget을 (탭 위젯에 첫번째 탭) tab_sort로 수정하여 오류해결
+        self.criteria_sort_group.setTitle(_translate("MainWindow", "기본 정렬"))
+        self.sort_combobox.setItemText(0, _translate("MainWindow", "이름순"))
+        self.sort_combobox.setItemText(1, _translate("MainWindow", "파일 확장자"))
+        self.sort_combobox.setItemText(2, _translate("MainWindow", "파일 크기"))
+        self.up_order.setToolTip(_translate("MainWindow", "기본으로 오름차순으로 설정되어 있음"))
+        self.up_order.setText(_translate("MainWindow", "오름차순"))
+        self.down_order.setText(_translate("MainWindow", "내림차순"))
+        self.advanced_sort_group.setTitle(_translate("MainWindow", "세부 정렬"))
+        self.select_sort.setText(_translate("MainWindow", "선택정렬"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_sort), _translate("MainWindow", "정렬"))
+        self.list_view.setStatusTip(_translate("MainWindow", "ListView"))
+        self.menu.setTitle(_translate("MainWindow", "설정"))
+        self.action.setText(_translate("MainWindow", "To be contiuned..."))
 
 
 if __name__ == "__main__":
     import sys
+    import os #icon 상대적 파일 경로를 위해 os 를 import함
+
+    path = os.path.dirname(os.path.abspath(__file__)) #icon path 
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
