@@ -1,49 +1,46 @@
-import os,sys
-import datetime
-from time import localtime,strftime
+import os
 
-class Alignment:
-    def __init__(self):
-        self.dir_list = os.listdir()
-        self.dir = os.getcwd()
 
-    #이름
-    def sort_name(self,rever):
-        # type
-        # 오름차순 : False
-        # 내림차순 : True
-        sort_list = self.dir_list[:]
-        sort_list.sort(reverse=rever)
+class NumberCount:
+    def __init__(self, directory_path):
+        self.dir = os.path.abspath(directory_path)
+        self.dir_list = os.listdir(self.dir)
+
+    # 디렉토리들의 파일 개수에 따라 정렬해 나온 리스트를 반환
+    def sort_file_Count(self, rever=True):
+        sort_dict = dict()
+
+        for li in self.dir_list:
+            if os.path.isdir(os.path.abspath(li)):
+                file_size = len(os.listdir(li))
+            else:
+                file_size = -1
+
+            sort_dict[li] = file_size
+
+        sort_list = sorted(sort_dict, key=lambda k: sort_dict[k], reverse=rever)
+
         return sort_list
 
-    #확장자
-    def sort_exp(self):
-        exp_list = [] #확장자 리스트
-        exp_content_list = [] #확장자로 구분한 파일 리스트
-        for l in range(len(self.dir_list)):
-            exp = os.path.splitext(self.dir_list[l])[1]
-            if not (exp in exp_list):
-                exp_list.append(exp)
-                exp_content_list.append(list())
-            
-            exp_idx = exp_list.index(exp)
-            exp_content_list[exp_idx].append(self.dir_list[l])
-        
-        return exp_list,exp_content_list
+    def sort_file_dirfile(self):
+        df_list = [[], []]
 
-    #수정된 시간기준
-    def sort_time(self):
-        time_list = list(self.dir_list)
-        
-        for i in range(0,len(time_list)):
-            for j in range(0,len(time_list)):
-                before_file = datetime.datetime.fromtimestamp(os.path.getmtime(self.dir+"\\"+time_list[i]))
-                after_file = datetime.datetime.fromtimestamp(os.path.getmtime(self.dir+"\\"+time_list[j]))
-                if before_file > after_file :
-                    (time_list[i], time_list[j]) = (time_list[j], time_list[i])
-        
-        return time_list
+        for l in self.dir_list:
+            if os.path.isdir(l):
+                df_list[0].append(l)
+            elif os.path.isfile(l):
+                df_list[1].append(l)
 
-#test
-sort_list = Alignment()
-print(sort_list.sort_time())
+        return df_list
+
+
+# test
+file_A = NumberCount(os.getcwd())
+
+print("\n포함된 파일 갯수에 따라 정렬된 리스트 :")
+print(file_A.sort_file_Count())
+
+print("\n파일 리스트 :")
+print(file_A.sort_file_dirfile()[0])
+print("\n디렉토리 리스트 :")
+print(file_A.sort_file_dirfile()[1])
