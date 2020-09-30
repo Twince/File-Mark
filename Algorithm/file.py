@@ -1,4 +1,6 @@
-import os, shutil
+import os
+import shutil
+
 
 class FileSystem:
     def __init__(self, directory_path):
@@ -20,7 +22,7 @@ class FileSystem:
     # 파일/디렉토리 복사
     def file_copy(self, names):
         # names [0] : 작업을 시행할 파일/디렉토리 [1] : 복사할 이름
-        if not (names[0] == "" | names[1] == ""):
+        if not (names[0] == "" or names[1] == ""):
             if os.path.isdir(names):
                 shutil.copytree(names[0], names[1])
             if os.path.isfile(names):
@@ -32,14 +34,14 @@ class FileSystem:
     # 파일/디렉토리 이동
     def file_move(self, names):
         # names [0] : 이동할 파일/디렉토리 [1] : 이동할 위치
-        if not (names[0] == "" | names[1] == ""):
+        if not (names[0] == "" or names[1] == ""):
             shutil.move(names[0], names[1])
         else:
             msg = "ERROR : 파일이 선택되지않음"
 
     # 파일/디렉토리 선택
     def file_select(self, names):
-        if names != "" & os.path.exists(names):
+        if names != "" and os.path.exists(names):
             if self.select_list in names:
                 self.select_list.remove(names)
             else:

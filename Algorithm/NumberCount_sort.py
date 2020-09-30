@@ -34,13 +34,14 @@ class NumberCount:
         return df_list
 
 
-# test
-file_A = NumberCount(os.getcwd())
+if __name__ == '__main__':
+    # test
+    file_A = NumberCount(os.getcwd())
 
-print("\n포함된 파일 갯수에 따라 정렬된 리스트 :")
-print(file_A.sort_file_Count())
+    print("\n포함된 파일 갯수에 따라 정렬된 리스트 :")
+    print(file_A.sort_file_Count())
 
-print("\n파일 리스트 :")
-print(file_A.sort_file_dirfile()[0])
-print("\n디렉토리 리스트 :")
-print(file_A.sort_file_dirfile()[1])
+    print("\n파일 리스트 :")
+    print(file_A.sort_file_dirfile()[0])
+    print("\n디렉토리 리스트 :")
+    print(file_A.sort_file_dirfile()[1])
