@@ -1,0 +1,12 @@
+# IDE settings
+.idea
+.vscode
+.atom
+
+# Binaries
+*.pyc
+__pycache__
+
+# virtual env
+*conda*
+*env*
