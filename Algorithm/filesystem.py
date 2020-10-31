@@ -157,8 +157,8 @@ class FileSystem:
         # date search
         # date[0] : 비교할 날짜 / date[1] : 비교할 방식 (last,after,except,include)
         if not(False in date):
-            compareDate = date[0]
-            dataDate = searchData["mtime"]
+            compareDate = datetime.datetime.strptime(date[0],"%Y-%m-%d")
+            dataDate = datetime.datetime.strptime(searchData["mtime"].split(" ")[0],"%Y-%m-%d")
 
             if (date[1] == "last" and  compareDate > dataDate) or (date[1] == "after" and compareDate < dataDate) or (date[1] == "except" and compareDate != dataDate) or (date[1] == "include" and compareDate == dataDate):
                 flag = True
@@ -176,23 +176,26 @@ Fsystem = FileSystem(os.getcwd())
 options = {
     "name" : False,
     "exp" : False,
-    "date" : [False,False],
+    "date" : ["2020-10-30","last"],
     "type" : False
 }
 print("검색 결과 : ")
 List = Fsystem.file_search([],"",options)
-for data in List :
-    print("***")
-    print("")
-    print("- name : ",data["name"])
-    print("- type : ",data["type"])
-    print("- absRoot : ",data["absRoot"])
-    print("- fileCount : ",data["fileCount"])
-    print("- fileList : ",data["fileList"])
-    print("- ctime : ",data["ctime"])
-    print("- mtime : ",data["mtime"])
-    print("- atime : ",data["atime"])
-    print("- size : ",data["size"])
-    print("- searchType : ",data["searchType"])
-    print("")
-    print("***")
+if len(List) > 0 :
+    for data in List :
+        print("***")
+        print("")
+        print("- name : ",data["name"])
+        print("- type : ",data["type"])
+        print("- absRoot : ",data["absRoot"])
+        print("- fileCount : ",data["fileCount"])
+        print("- fileList : ",data["fileList"])
+        print("- ctime : ",data["ctime"])
+        print("- mtime : ",data["mtime"])
+        print("- atime : ",data["atime"])
+        print("- size : ",data["size"])
+        print("- searchType : ",data["searchType"])
+        print("")
+        print("***")
+else :
+    print("없음")
