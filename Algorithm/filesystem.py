@@ -1,6 +1,5 @@
-import os  # 시스템관련
 import datetime  # 시간관련
-import time  # 시간관련
+import os  # 시스템관련
 import shutil  # 파일연산
 
 
