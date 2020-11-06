@@ -1,7 +1,6 @@
-import os       # 시스템관련 
-import datetime # 시간관련
-import time     # 시간관련
-import shutil   # 파일연산
+import datetime  # 시간관련
+import os  # 시스템관련
+import shutil  # 파일연산
 
 
 class FileSystem:
@@ -50,7 +49,7 @@ class FileSystem:
                 self.select_list.append(names)
 
     # 파일/디렉토리 정보
-    def file_info(self,names):
+    def file_info(self, names):
         # 가져오는 정보 {} 형태는 Dictionary(사전) 자료형이라고 한다. 자세한건 검색바람
         # 이름
         # 종류 (파일 : file / 디렉토리 : dir)
@@ -63,16 +62,16 @@ class FileSystem:
         # 파일크기 (단위 : 바이트)
         # 확장자 (default : "")
         infoList = {
-            "name" : "",
-            "type" : "",
-            "absRoot" : "",
-            "fileCount" : 0,
-            "fileList" : [],
-            "ctime" : "",
-            "mtime" : "",
-            "atime" : "",
-            "size" : 0,
-            "exp" : ""
+            "name": "",
+            "type": "",
+            "absRoot": "",
+            "fileCount": 0,
+            "fileList": [],
+            "ctime": "",
+            "mtime": "",
+            "atime": "",
+            "size": 0,
+            "exp": ""
         }
 
         # (이름이 비어있지않는경우 혹은 파일/디렉토리 가 아닌경우)의 not
@@ -87,11 +86,11 @@ class FileSystem:
             infoList["atime"] = datetime.datetime.fromtimestamp(os.path.getatime(names)).strftime("%Y-%m-%d %H:%M:%S")
             infoList["size"] = os.path.getsize(names)
             infoList["exp"] = os.path.splitext(names)[1] if os.path.isfile(names) else ""
-        else :
+        else:
             msg = "ERROR : 파일이 선택되지않음"
-        
+
         return infoList
-    
+
     # file_search
     # 기본적으로 현재 디렉토리 기준 모든 하위 요소에 대해 파일/디렉토리 구분하지 않고 검색한다.
     # area : 검색할 위치 (default : 현재 self.dir의 위치)
@@ -101,35 +100,35 @@ class FileSystem:
     # 특정 날짜기준 [이전/이후/제외/포함]
     # 종류 [파일/디렉토리]
     # 검색어
-    def file_search(self,searchList = [],area="",options={
-        "name" : False,
-        "exp" : False,
-        "date" : [False,False],
-        "type" : False
+    def file_search(self, searchList=[], area="", options={
+        "name": False,
+        "exp": False,
+        "date": [False, False],
+        "type": False
     }):
         # search data {dataInfo/searchOption/searchContent}
-        searchArea = self.dir if area == "" else os.path.join(self.dir,area)
+        searchArea = self.dir if area == "" else os.path.join(self.dir, area)
 
         # dir 검사
         if os.path.isdir(searchArea):
             searchDirList = os.listdir(searchArea)
 
-            for data in searchDirList :
-                data = os.path.join(searchArea,data)
-                result = self.file_search_detail(area,data,options)
+            for data in searchDirList:
+                data = os.path.join(searchArea, data)
+                result = self.file_search_detail(area, data, options)
 
-                if result != False :
+                if result != False:
                     searchList.append(result)
 
                 if os.path.isdir(data):
-                    self.file_search(searchList,data,options)
+                    self.file_search(searchList, data, options)
         else:
             msg = "ERORR : 현재 위치에서 실행할 수 없습니다."
-        
+
         return searchList
 
     # options 에 맞게 검사
-    def file_search_detail(self,folder,data,options):
+    def file_search_detail(self, folder, data, options):
         name = options["name"]
         exp = options["exp"]
         date = options["date"]
@@ -148,7 +147,7 @@ class FileSystem:
         if exp != False and exp in searchData["exp"]:
             flag = True
             searchType.append("exp")
-        
+
         # type search
         if Type != False and Type == searchData["type"]:
             flag = True
@@ -156,46 +155,49 @@ class FileSystem:
 
         # date search
         # date[0] : 비교할 날짜 / date[1] : 비교할 방식 (last,after,except,include)
-        if not(False in date):
-            compareDate = datetime.datetime.strptime(date[0],"%Y-%m-%d")
-            dataDate = datetime.datetime.strptime(searchData["mtime"].split(" ")[0],"%Y-%m-%d")
+        if not (False in date):
+            compareDate = datetime.datetime.strptime(date[0], "%Y-%m-%d")
+            dataDate = datetime.datetime.strptime(searchData["mtime"].split(" ")[0], "%Y-%m-%d")
 
-            if (date[1] == "last" and  compareDate > dataDate) or (date[1] == "after" and compareDate < dataDate) or (date[1] == "except" and compareDate != dataDate) or (date[1] == "include" and compareDate == dataDate):
+            if (date[1] == "last" and compareDate > dataDate) or (date[1] == "after" and compareDate < dataDate) or (
+                    date[1] == "except" and compareDate != dataDate) or (
+                    date[1] == "include" and compareDate == dataDate):
                 flag = True
-                searchType.append("date - "+data[1])
+                searchType.append("date - " + data[1])
 
         if flag:
             searchData["searchType"] = searchType
-        else :
+        else:
             searchData = False
-                
+
         return searchData
 
 
-Fsystem = FileSystem(os.getcwd())
-options = {
-    "name" : False,
-    "exp" : False,
-    "date" : ["2020-10-30","last"],
-    "type" : False
-}
-print("검색 결과 : ")
-List = Fsystem.file_search([],"",options)
-if len(List) > 0 :
-    for data in List :
-        print("***")
-        print("")
-        print("- name : ",data["name"])
-        print("- type : ",data["type"])
-        print("- absRoot : ",data["absRoot"])
-        print("- fileCount : ",data["fileCount"])
-        print("- fileList : ",data["fileList"])
-        print("- ctime : ",data["ctime"])
-        print("- mtime : ",data["mtime"])
-        print("- atime : ",data["atime"])
-        print("- size : ",data["size"])
-        print("- searchType : ",data["searchType"])
-        print("")
-        print("***")
-else :
-    print("없음")
+if __name__ == '__main__':
+    Fsystem = FileSystem(os.getcwd())
+    options = {
+        "name": False,
+        "exp": False,
+        "date": ["2020-10-30", "last"],
+        "type": False
+    }
+    print("검색 결과 : ")
+    List = Fsystem.file_search([], "", options)
+    if len(List) > 0:
+        for data in List:
+            print("***")
+            print("")
+            print("- name : ", data["name"])
+            print("- type : ", data["type"])
+            print("- absRoot : ", data["absRoot"])
+            print("- fileCount : ", data["fileCount"])
+            print("- fileList : ", data["fileList"])
+            print("- ctime : ", data["ctime"])
+            print("- mtime : ", data["mtime"])
+            print("- atime : ", data["atime"])
+            print("- size : ", data["size"])
+            print("- searchType : ", data["searchType"])
+            print("")
+            print("***")
+    else:
+        print("없음")
