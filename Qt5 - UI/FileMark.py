@@ -13,9 +13,27 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-
+        self.comboBox.currentIndexChanged.connect(self.comboBox_event)
         #파일 이름 검색 QLineEdit 엔터 return하면,
         self.FileSearch.returnPressed.connect(self.SearchStart)
+
+
+    def comboBox_event(self) :
+        if self.comboBox.currentIndex() == 0 : 
+            print("검색 시작")
+
+        elif self.comboBox.currentIndex() == 1 :
+            print("검색 시작")
+           
+        elif self.comboBox.currentIndex() == 2 : 
+            print("검색 시작")
+           
+        elif self.comboBox.currentIndex() == 3 :
+            print("검색 시작")
+            
+        elif self.comboBox.currentIndex() == 4 :
+            print("검색 시작")
+            
 
 
     #엔터가 return  됬을때
