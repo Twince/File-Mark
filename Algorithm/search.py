@@ -55,7 +55,7 @@ class FileSearch:
 
         return self.search_list
 
-    def file_search_detail(self,data):
+    def file_search_detail(self,data,option = {}):
         searchInfo = self.file_info(data)
         flag = False
 
@@ -65,21 +65,8 @@ class FileSearch:
         if self.search_type == "exp":
             flag = "."+self.search_word in searchInfo["exp"]
         
-        if self.search_type == "ctime":
-            print(self.yesterDay)
-            print(self.yesterWeek)            
-            print(self.yesterMonth)
-            print(self.yesterYear)
-            print("---")
-            print(searchInfo["ctime"])
-            print(searchInfo["atime"])            
-            print(searchInfo["mtime"])
-            print("---")
+        if self.search_type == "mtime":
+            flag = searchInfo["mtime"]
+            
 
         return flag
-
-
-Fsystem = FileSearch("C:\Users\JI\Desktop\연지수","ctime","py")
-result_list = Fsystem.file_search()
-for data in result_list:
-    print(data)
