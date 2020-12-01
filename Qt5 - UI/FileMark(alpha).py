@@ -95,7 +95,7 @@ class WindowClass(QMainWindow, form_class):
         liName = os.path.basename(absName)
 
         item = QTreeWidgetItem([liName])  # 상위 항목 생성
-        item.setIcon(0, QIcon(QPixmap("C:\\Users\\mko29\\Desktop\\FM2\\Qt5 - UI\\Icons\\Copy.png")))
+        item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))  
         liItems = self.subList(absName)
 
         print("하위 폴더 생성=================================")
@@ -113,6 +113,7 @@ class WindowClass(QMainWindow, form_class):
             else:
                 print("파일입니다.")
                 child = QTreeWidgetItem([subItem])
+                child.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
 
             item.addChild(child)
 
