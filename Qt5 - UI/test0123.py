@@ -1,5 +1,7 @@
 import sys
 import os
+
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
@@ -27,8 +29,6 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
 
-        self.treeWidget = QTreeWidget(self)
-        self.treeWidget.clear()
         # 처음 중앙 검색 위치는 프로그램 위치로 설정
         self.fd_cwd = os.getcwd()
         self.FileDir.setText(self.fd_cwd)  # 경로 갱신
@@ -48,6 +48,9 @@ class WindowClass(QMainWindow, form_class):
     # 엔터가 return  됬을때
     def SearchStart(self):
         # 검색한 파일 이름 저장
+        self.treeWidget = QTreeWidget(self)
+        self.treeWidget.clear()
+
         Search = self.FileSearch.text()
         print("검색 시작" + str(Search))
 
@@ -93,6 +96,7 @@ class WindowClass(QMainWindow, form_class):
         liName = os.path.basename(absName)
 
         item = QTreeWidgetItem([liName])  # 상위 항목 생성
+        item.setIcon(0, QIcon(QPixmap("E:\\프로그래밍(Programming)\\Python\\File-Mark\\Qt5 - UI\\Icons\\File Move.png")))
         liItems = self.subList(absName)
 
         print("하위 폴더 생성=================================")
