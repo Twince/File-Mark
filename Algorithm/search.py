@@ -67,6 +67,5 @@ class FileSearch:
         
         if self.search_type == "mtime":
             flag = searchInfo["mtime"]
-            
 
         return flag
