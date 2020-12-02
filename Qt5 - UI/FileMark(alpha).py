@@ -1,9 +1,9 @@
-import sys
 import os
+import sys
 
+from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5 import uic
 
 # from PyQt5.QtCore import Qt # 사용되지 않음
 
@@ -73,9 +73,8 @@ class WindowClass(QMainWindow, form_class):
         search = self.FileDir.text()
         print("탐색 경로 재 설정!", end="")
         print(search)
-        if os.path.isdir(search):   # 새로 입력된 경로가 폴더라면
-            self.fd_cwd = search    # 파일 경로로 설정 (파일이라면 찾을게 없음!)
-
+        if os.path.isdir(search):  # 새로 입력된 경로가 폴더라면
+            self.fd_cwd = search  # 파일 경로로 설정 (파일이라면 찾을게 없음!)
 
     # 트리 나무 뷰 화면
     def treeList(self, search):

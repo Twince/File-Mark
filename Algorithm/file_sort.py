@@ -1,12 +1,13 @@
-import os,shutil
+import os
+
 
 class Alignment:
-    def __init__(self,directory_path):
-        self.now_dir =  os.path.abspath(directory_path)
+    def __init__(self, directory_path):
+        self.now_dir = os.path.abspath(directory_path)
         self.dir_list = os.listdir(self.dir)
-    
-    #이름
-    def sort_name(self,rever=False):
+
+    # 이름
+    def sort_name(self, rever=False):
         # type
         # 오름차순 : False
         # 내림차순 : True
@@ -14,20 +15,20 @@ class Alignment:
         sort_list.sort(reverse=rever)
         return sort_list
 
-    #확장자
+    # 확장자
     def sort_exp(self):
-        exp_list = [] #확장자 리스트
-        exp_content_list = [] #확장자로 구분한 파일 리스트
+        exp_list = []  # 확장자 리스트
+        exp_content_list = []  # 확장자로 구분한 파일 리스트
         for l in range(len(self.dir_list)):
             exp = os.path.splitext(self.dir_list[l])[1]
             if not (exp in exp_list):
                 exp_list.append(exp)
                 exp_content_list.append(list())
-            
+
             exp_idx = exp_list.index(exp)
             exp_content_list[exp_idx].append(self.dir_list[l])
-        
-        return exp_list,exp_content_list
+
+        return exp_list, exp_content_list
 
     # 디렉토리들의 파일 개수에 따라 정렬해 나온 리스트를 반환
     def sort_file_Count(self, rever=True):
@@ -36,7 +37,7 @@ class Alignment:
         for li in self.dir_list:
             if os.path.isdir(os.path.abspath(li)):
                 file_size = len(os.listdir(li))
-            else :
+            else:
                 file_size = -1
 
         sort_dict[li] = file_size
@@ -46,10 +47,10 @@ class Alignment:
         return sort_list
 
     # 디렉토리 이름으로 디렉토리안에 파일 개수를 반환 파일 경로일땐 0
-    def dir_Count(self,dir_name):
-        if os.path.isdir(self.now_dir): 
+    def dir_Count(self, dir_name):
+        if os.path.isdir(self.now_dir):
             count = len(self.dir_list)
-        else: 
+        else:
             count = -1
 
         return count
@@ -69,9 +70,7 @@ class Alignment:
                 for file_name in file_name_list:
                     if count == self.dir_Count():
                         file_Count_list[file_Count_list.index(count)] = file_name
-                            
-            return file_Count_list
-        else: 
-            return list()
 
-    
+            return file_Count_list
+        else:
+            return list()
