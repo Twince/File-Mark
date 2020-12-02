@@ -1,9 +1,9 @@
-import os
 import sys
+import os
 
-from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
+from PyQt5 import uic
 
 # from PyQt5.QtCore import Qt # 사용되지 않음
 
@@ -73,18 +73,21 @@ class WindowClass(QMainWindow, form_class):
         search = self.FileDir.text()
         print("탐색 경로 재 설정!", end="")
         print(search)
-        if os.path.isdir(search):  # 새로 입력된 경로가 폴더라면
-            self.fd_cwd = search  # 파일 경로로 설정 (파일이라면 찾을게 없음!)
+        if os.path.isdir(search):   # 새로 입력된 경로가 폴더라면
+            self.fd_cwd = search    # 파일 경로로 설정 (파일이라면 찾을게 없음!)
 
     # 트리 나무 뷰 화면
     def treeList(self, search):
         print("\n\n\n트리 생성")
+
+        # 트리위젯 초기화
         self.treeWidget.clear()
+
         # 검색할 파일 이름과 비슷한 파일경로 리스트 저장
         searchFileRoutes = searchFile(self.fd_cwd, search)
         self.treeWidget.setHeaderLabels(["파일"])
-        # 기본적으로 현재 파일 표시
 
+        # 기본적으로 현재 파일 표시
         for route in searchFileRoutes:
             absName = os.path.join(self.fd_cwd, route)
             treeList = self.newTreeList(absName)
@@ -138,18 +141,18 @@ class WindowClass(QMainWindow, form_class):
     def absChildRoute(self, item):
         route = item.text(0)
 
-        # 부모를 만나면서 경로를 채워감
+        # 부모를 만나면서 경로를 채워감 item은 부모
         while 1:
             parentItem = item.parent()
 
             if parentItem is not None:  # 부모가 있다면 경로 갱신
-                parentName = parentItem.text(0)  # 부모 이름 받아옴
+                item = parentItem
+                parentName = item.text(0)  # 부모 이름 받아옴
                 route = os.path.join(parentName, route)
             else:
                 # 더 이상 부모가 없다면 탐색 경로 끝까지 온 것이므로 탐색 경로를 붙이고 빠져나옴
                 route = os.path.join(self.fd_cwd, route)
                 break
-
         return route
 
     # 선택된 자식을 탐색함
