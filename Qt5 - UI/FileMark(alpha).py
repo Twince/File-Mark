@@ -33,25 +33,17 @@ class WindowClass(QMainWindow, form_class):
         self.fd_cwd = os.getcwd()
         self.FileDir.setText(self.fd_cwd)  # 경로 갱신
 
-        # 파일 검색 위치
-        self.FileDir.returnPressed.connect(self.reSearch)
         # 파일 이름 검색 QLineEdit 엔터 return 하면,
-        self.FileSearch.returnPressed.connect(self.SearchStart)
-
-    def reSearch(self):
-        search = self.FileDir.text()
-        if os.path.isdir(search):
-            self.fd_cwd = search
-
         self.FileSearch.returnPressed.connect(self.SearchStart)
 
     # 엔터가 return  됬을때
     def SearchStart(self):
-        self.treeWidget = QTreeWidget(self)
-        self.treeWidget.clear()
         # 검색한 파일 이름 저장
         Search = self.FileSearch.text()
         print("검색 시작" + str(Search))
+
+        self.treeWidget = QTreeWidget(self)
+        self.treeWidget.clear()
 
         # 검색바 위치 옮기기
         self.FileSearch.move(23, 90)
@@ -69,21 +61,33 @@ class WindowClass(QMainWindow, form_class):
         # 트리위젯
         self.treeList(Search)
 
+        # 파일 검색 위치
+        self.FileDir.returnPressed.connect(self.reSearch)
+
+        # 폴더 항목을 더블 클릭했을 때 그 경로로 검색 위치를 바꿈
+        self.treeWidget.itemDoubleClicked.connect(self.reReachSelectedItem)
+
         self.treeWidget.show()
+
+    def reSearch(self):
+        search = self.FileDir.text()
+        print("탐색 경로 재 설정!", end="")
+        print(search)
+        if os.path.isdir(search):   # 새로 입력된 경로가 폴더라면
+            self.fd_cwd = search    # 파일 경로로 설정 (파일이라면 찾을게 없음!)
+
 
     # 트리 나무 뷰 화면
     def treeList(self, search):
-        # 검색된 리스트 공간
-
+        print("\n\n\n트리 생성")
+        self.treeWidget.clear()
         # 검색할 파일 이름과 비슷한 파일경로 리스트 저장
         searchFileRoutes = searchFile(self.fd_cwd, search)
         self.treeWidget.setHeaderLabels(["파일"])
-
         # 기본적으로 현재 파일 표시
-        names = os.listdir(os.getcwd())
 
         for route in searchFileRoutes:
-            absName = os.path.abspath(route)
+            absName = os.path.join(self.fd_cwd, route)
             treeList = self.newTreeList(absName)
             self.treeWidget.addTopLevelItem(treeList)
 
@@ -91,27 +95,28 @@ class WindowClass(QMainWindow, form_class):
         # self.treeWidget.itemExpanded.connect(self.addList)
 
     def newTreeList(self, absName):
-        print("\n\n상위 폴더 생성===================================================")
+        # print("\n\n상위 폴더 생성===================================================")
         liName = os.path.basename(absName)
 
         item = QTreeWidgetItem([liName])  # 상위 항목 생성
-        item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))  
+        item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))
+
         liItems = self.subList(absName)
 
-        print("하위 폴더 생성=================================")
-        print(liName + "폴더 생성 list=>", end="")
-        print(liItems)
+        # print("하위 폴더 생성=================================")
+        # print(liName)
+        # print("폴더 생성 list=>" + liItems)
         for subItem in liItems:
-            absSubItem = os.path.join(absName, subItem)     # 자식 절대경로 = 부모 절대경로 \ 자식 이름
+            absSubItem = os.path.join(absName, subItem)  # 자식 절대경로 = 부모 절대경로 \ 자식 이름
 
-            print("\n파일경로 :" + absSubItem)
-            print(str(subItem) + "은 ", end="")
+            # print("\n파일경로 :" + absSubItem)
+            # print(str(subItem) + "은 ", end="")
 
             if os.path.isdir(absSubItem):
-                print("폴더입니다.")
+                # print("폴더입니다.")
                 child = self.newTreeList(absSubItem)
             else:
-                print("파일입니다.")
+                # print("파일입니다.")
                 child = QTreeWidgetItem([subItem])
                 child.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
 
@@ -122,13 +127,40 @@ class WindowClass(QMainWindow, form_class):
     def subList(self, absName):
         liItem = []
 
-        print(absName)
+        # print(absName)
         if os.path.isdir(absName):
-            print("폴더임.")
+            # print("폴더임.")
             liItem = os.listdir(absName)
-        else:
-            print("파일임.")
+        # else:
+        #     print("파일임.")
         return liItem
+
+    # 자식의 절대경로를 찾음
+    def absChildRoute(self, item):
+        route = item.text(0)
+
+        # 부모를 만나면서 경로를 채워감
+        while 1:
+            parentItem = item.parent()
+
+            if parentItem is not None:  # 부모가 있다면 경로 갱신
+                parentName = parentItem.text(0)  # 부모 이름 받아옴
+                route = os.path.join(parentName, route)
+            else:
+                # 더 이상 부모가 없다면 탐색 경로 끝까지 온 것이므로 탐색 경로를 붙이고 빠져나옴
+                route = os.path.join(self.fd_cwd, route)
+                break
+
+        return route
+
+    # 선택된 자식을 탐색함
+    def reReachSelectedItem(self):
+        curItem = self.treeWidget.currentItem()
+        childRute = self.absChildRoute(curItem)
+        self.FileDir.setText(childRute)
+
+        self.reSearch()
+        self.treeList("")
 
     # 항목을 펼칠 때 항목 하위 폴더, 파일 추가
     # def addItem(self, IName):
