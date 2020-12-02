@@ -73,8 +73,8 @@ class WindowClass(QMainWindow, form_class):
         search = self.FileDir.text()
         print("탐색 경로 재 설정!", end="")
         print(search)
-        if os.path.isdir(search):   # 새로 입력된 경로가 폴더라면
-            self.fd_cwd = search    # 파일 경로로 설정 (파일이라면 찾을게 없음!)
+        if os.path.isdir(search):  # 새로 입력된 경로가 폴더라면
+            self.fd_cwd = search  # 파일 경로로 설정 (파일이라면 찾을게 없음!)
 
     # 트리 나무 뷰 화면
     def treeList(self, search):
@@ -93,55 +93,48 @@ class WindowClass(QMainWindow, form_class):
             treeList = self.newTreeList(absName)
             self.treeWidget.addTopLevelItem(treeList)
 
-        # 항목을 펼칠때 안해 절대
-        # self.treeWidget.itemExpanded.connect(self.addList)
-
+    # 항목의 하위 항목들을 검색해 트리를 생성함
     def newTreeList(self, absName):
         # print("\n\n상위 폴더 생성===================================================")
-        liName = os.path.basename(absName)
+        liName = os.path.basename(absName)  # 상위 항목의 이름
+        liItems = []  # 하위 항목 리스트
 
         item = QTreeWidgetItem([liName])  # 상위 항목 생성
-        item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))
 
-        liItems = self.subList(absName)
+        try:
+            liItems = os.listdir(absName)  # 상위 항목의 하위 항목 리스트를 저장
+        except:
+            pass
+
+        # 파일/ 폴더에 따라 아이콘 변경
+        if os.path.isdir(absName):
+            item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))
+        else:
+            item.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
 
         # print("하위 폴더 생성=================================")
         # print(liName)
         # print("폴더 생성 list=>" + liItems)
-        for subItem in liItems:
-            absSubItem = os.path.join(absName, subItem)  # 자식 절대경로 = 부모 절대경로 \ 자식 이름
-
+        for subItem in liItems:  # 하위 항목 리스트 순회
             # print("\n파일경로 :" + absSubItem)
             # print(str(subItem) + "은 ", end="")
 
-            if os.path.isdir(absSubItem):
-                # print("폴더입니다.")
-                child = self.newTreeList(absSubItem)
-            else:
-                # print("파일입니다.")
-                child = QTreeWidgetItem([subItem])
-                child.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
+            # 자식 절대경로 = 부모 절대경로 \ 자식 이름 (파일/폴더 구분, 재귀때 사용)
+            absSubItem = os.path.join(absName, subItem)
 
+            # 하위 항목들 하나하나 트리로 만듦
+            child = self.newTreeList(absSubItem)
+
+            # 생성된 하위 항목 또는 하위 항목의 트리를 상위 항목의 자식으로 추가
             item.addChild(child)
 
-        return item
-
-    def subList(self, absName):
-        liItem = []
-
-        # print(absName)
-        if os.path.isdir(absName):
-            # print("폴더임.")
-            liItem = os.listdir(absName)
-        # else:
-        #     print("파일임.")
-        return liItem
+        return item  # 하위 항목들의 탐색을 끝낸 상위 항목을 반환
 
     # 자식의 절대경로를 찾음
     def absChildRoute(self, item):
         route = item.text(0)
 
-        # 부모를 만나면서 경로를 채워감 item은 부모
+        # 부모를 만나면서 경로를 채워감 item은 현재 부모
         while 1:
             parentItem = item.parent()
 
@@ -163,22 +156,6 @@ class WindowClass(QMainWindow, form_class):
 
         self.reSearch()
         self.treeList("")
-
-    # 항목을 펼칠 때 항목 하위 폴더, 파일 추가
-    # def addItem(self, IName):
-    #
-    #     item = QTreeWidgetItem([IName])  # 아이템 항목 생성
-    #
-    #     if os.path.isdir(IName):    # 폴더인 경우
-    #         IList = os.listdir(IName)
-    #
-    #         for subItem in IList:   # 아이템 하위 항목 추가
-    #             child = QTreeWidgetItem([subItem])
-    #             item.addChild(child)
-    #
-    #             self.addItem(subItem)
-    #     # 만든 아이템 트리위젯에 추가
-    #     self.treeWidget.addTopLevelItem(item)
 
 
 if __name__ == "__main__":
