@@ -7,15 +7,34 @@ from PyQt5.QtCore import Qt
 #단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
 form_class = uic.loadUiType("new start.ui")[0]
 
+
 #화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
 
-
+        self.comboBox.currentIndexChanged.connect(self.comboBox_event)
         #파일 이름 검색 QLineEdit 엔터 return하면,
         self.FileSearch.returnPressed.connect(self.SearchStart)
+
+
+    def comboBox_event(self) :
+        if self.comboBox.currentIndex() == 0 : 
+            print("검색 시작")
+
+        elif self.comboBox.currentIndex() == 1 :
+            print("검색 시작")
+           
+        elif self.comboBox.currentIndex() == 2 : 
+            print("검색 시작")
+           
+        elif self.comboBox.currentIndex() == 3 :
+            print("검색 시작")
+            
+        elif self.comboBox.currentIndex() == 4 :
+            print("검색 시작")
+            
 
 
     #엔터가 return  됬을때

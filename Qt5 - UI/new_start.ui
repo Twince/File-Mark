@@ -298,7 +298,7 @@ QStatusBar {
     </item>
    </widget>
    <widget class="QLineEdit" name="FileSearch">
-	<property name="geometry">
+    <property name="geometry">
      <rect>
       <x>260</x>
       <y>310</y>
