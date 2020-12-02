@@ -50,9 +50,11 @@ class WindowClass(QMainWindow, form_class):
 
         DirIndex = os.listdir(display_dir)
         print(DirIndex)
-
         for x in DirIndex:
-            self.LIST.addItem(QListWidgetItem(QIcon("Icons/Copy.png"), x))
+            if "." in str(x):
+                self.LIST.addItem(QListWidgetItem(QIcon("Icons/Copy.png"), x))
+            else:
+                self.LIST.addItem(QListWidgetItem(QIcon("Icons/File Move.png"), x))
 
         # self.LIST.addItems(DirIndex)
 
@@ -92,6 +94,29 @@ class WindowClass(QMainWindow, form_class):
         # same
         display_dir = self.DirAddress.text()
         self.createList(display_dir)  # list만드는 함수 호출
+
+
+
+    #아이템이 클릭됬을때 이벤트
+    # def ItemClicked(self):
+    #     # print(self.LIST.currentItem().text()) 디버깅 용
+    #     ItemValue = self.LIST.currentItem().text()
+    #     # if "." in ItemValue[-4:]):
+
+        
+
+    #     if "." in ItemValue:
+    #         print("File")
+    #     else:
+    #         # print("Folder")
+
+            
+    #         refresh_Dir = display_dir + ItemValue #새로운 주소는 표시되고 있는 디렉토리(display_dir)에 폴더명을 합친 주소
+    #         print(refresh_Dir)
+
+    #         self.createList(refresh_Dir);
+    #         self.DirAddress.setText(refresh_Dir)
+
 
 
 if __name__ == "__main__":
