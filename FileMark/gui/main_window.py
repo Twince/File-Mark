@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 
 # UI 파일 연결
 # 단, UI 파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
-from FileMark.filters import find_ext, contains_name, in_duration
+from FileMark.filters import find_ext, contains_name, in_duration, under_size
 from FileMark.model import Directory, FileOrDirectory
 from FileMark.model.file import finder
 
@@ -17,7 +17,7 @@ form_class = uic.loadUiType("FileMark/gui/resources/ui/new start.ui")[0]
 SEARCH_FUNCTIONS = {
     0: contains_name,  # 이름
     1: in_duration,  # 날짜
-    2: None,  # 크기
+    2: under_size,  # 크기
     3: find_ext,  # 확장자
     4: None  # 사용빈도
 }

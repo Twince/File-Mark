@@ -54,3 +54,20 @@ def in_duration(query: str, f: FileOrDirectory, field="mtime"):
         val = f.atime
 
     return not query or (query and val >= datetime.now() - delta)
+
+
+def under_size(query: str, f: FileOrDirectory):
+    units = ("TB", "GB", "MB", "KB", "B")
+
+    query = query.replace(" ", "").lower()
+
+    val = 0.0
+    for i, u in enumerate(units):
+        if not val and query.endswith(u.lower()):
+            val = float(query[:-len(u)])
+
+        if i != len(units) - 1:
+            val *= 1024
+
+    print(val)
+    return not query or (query and f.size <= val)
