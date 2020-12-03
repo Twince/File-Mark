@@ -1,5 +1,4 @@
 import os
-import sys
 import typing
 
 from PyQt5 import uic
@@ -57,11 +56,11 @@ class WindowClass(QMainWindow, form_class):
         self.treeWidget.clear()
 
         # 검색바 위치 옮기기
-        self.FileSearch.move(23, 90)
+        self.FileSearch.move(260, 90)
         # FileMark 라벨 숨김
         self.label.hide()
         # 조건 콤보박스 숨김
-        self.comboBox.hide()
+        self.comboBox.move(20, 90)
 
         # 트리위젯 초기화
         self.treeWidget.clear()
