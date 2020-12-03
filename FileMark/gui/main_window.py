@@ -1,5 +1,4 @@
 import os
-import sys
 
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
@@ -9,7 +8,7 @@ from PyQt5.QtWidgets import *
 
 # UI 파일 연결
 # 단, UI 파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
-form_class = uic.loadUiType("new start.ui")[0]
+form_class = uic.loadUiType("FileMark/gui/resources/ui/new start.ui")[0]
 
 
 def searchFile(path, name=""):
@@ -108,9 +107,9 @@ class WindowClass(QMainWindow, form_class):
 
         # 파일/ 폴더에 따라 아이콘 변경
         if os.path.isdir(absName):
-            item.setIcon(0, QIcon(QPixmap("resources/icons/이동.png")))
+            item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/이동.png")))
         else:
-            item.setIcon(0, QIcon(QPixmap("resources/icons/Copy.png")))
+            item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/Copy.png")))
 
         # print("하위 폴더 생성=================================")
         # print(liName)
@@ -157,16 +156,3 @@ class WindowClass(QMainWindow, form_class):
         self.reSearch()
         self.treeList("")
 
-
-if __name__ == "__main__":
-    # QApplication : 프로그램을 실행시켜주는 클래스
-    app = QApplication(sys.argv)
-
-    # WindowClass 의 인스턴스 생성
-    myWindow = WindowClass()
-
-    # 프로그램 화면을 보여주는 코드
-    myWindow.show()
-
-    # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
-    app.exec_()
