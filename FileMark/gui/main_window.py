@@ -1,5 +1,6 @@
 import os
 import sys
+import typing
 
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
@@ -9,7 +10,7 @@ from PyQt5.QtWidgets import *
 
 # UI 파일 연결
 # 단, UI 파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
-form_class = uic.loadUiType("new start.ui")[0]
+form_class = uic.loadUiType("FileMark/gui/resources/ui/new start.ui")[0]
 
 
 def searchFile(path, name=""):
@@ -21,6 +22,16 @@ def searchFile(path, name=""):
             templist.append(file_name)
 
     return templist
+
+
+class FMTreeWidgetItem(QTreeWidgetItem):
+
+    def data(self, column: int, role: int) -> typing.Any:
+        data = super().data(column, role)
+        if data:
+            # print(datetime.now(), self.child(0), column, role, data)
+            pass
+        return data
 
 
 # 화면을 띄우는데 사용되는 Class 선언
@@ -101,7 +112,7 @@ class WindowClass(QMainWindow, form_class):
         liName = os.path.basename(absName)  # 상위 항목의 이름
         liItems = []  # 하위 항목 리스트
 
-        item = QTreeWidgetItem([liName])  # 상위 항목 생성
+        item = FMTreeWidgetItem([liName])  # 상위 항목 생성
 
         try:
             liItems = os.listdir(absName)  # 상위 항목의 하위 항목 리스트를 저장
@@ -110,9 +121,9 @@ class WindowClass(QMainWindow, form_class):
 
         # 파일/ 폴더에 따라 아이콘 변경
         if os.path.isdir(absName):
-            item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))
+            item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/이동.png")))
         else:
-            item.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
+            item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/Copy.png")))
 
         # print("하위 폴더 생성=================================")
         # print(liName)
@@ -159,16 +170,3 @@ class WindowClass(QMainWindow, form_class):
         self.reSearch()
         self.treeList("")
 
-
-if __name__ == "__main__":
-    # QApplication : 프로그램을 실행시켜주는 클래스
-    app = QApplication(sys.argv)
-
-    # WindowClass 의 인스턴스 생성
-    myWindow = WindowClass()
-
-    # 프로그램 화면을 보여주는 코드
-    myWindow.show()
-
-    # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
-    app.exec_()
