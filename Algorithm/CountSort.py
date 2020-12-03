@@ -1,6 +1,5 @@
 import os
 
-
 class AAlignment:
     def __init__(self, directory_route):
         self.dir_list = os.listdir(directory_route)

@@ -7,7 +7,7 @@ class NumberCount:
         self.dir_list = os.listdir(self.dir)
 
     # 디렉토리들의 파일 개수에 따라 정렬해 나온 리스트를 반환
-    def sort_file_Count(self, rever=True):
+    def sort_file_Count(self, rever = True):
         sort_dict = dict()
 
         for li in self.dir_list:
@@ -18,7 +18,7 @@ class NumberCount:
 
             sort_dict[li] = file_size
 
-        sort_list = sorted(sort_dict, key=lambda k: sort_dict[k], reverse=rever)
+        sort_list = sorted(sort_dict, key=lambda k: sort_dict[k], reverse = rever)
 
         return sort_list
 
