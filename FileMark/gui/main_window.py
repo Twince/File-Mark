@@ -1,4 +1,5 @@
 import os
+import sys
 import typing
 
 from PyQt5 import uic
@@ -92,6 +93,8 @@ class WindowClass(QMainWindow, form_class):
 
         # 트리위젯 초기화
         self.treeWidget.clear()
+
+        self.reSearch()
 
         # 검색할 파일 이름과 비슷한 파일경로 리스트 저장
         searchFileRoutes = searchFile(self.fd_cwd, search)
