@@ -1,9 +1,9 @@
-import sys
 import os
+import sys
 
+from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5 import uic
 
 # from PyQt5.QtCore import Qt # 사용되지 않음
 
@@ -82,6 +82,8 @@ class WindowClass(QMainWindow, form_class):
 
         # 트리위젯 초기화
         self.treeWidget.clear()
+
+        self.reSearch()
 
         # 검색할 파일 이름과 비슷한 파일경로 리스트 저장
         searchFileRoutes = searchFile(self.fd_cwd, search)
