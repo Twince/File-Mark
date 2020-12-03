@@ -40,6 +40,10 @@ class AbstractFile:
     def parent(self):
         return self._parent or self.assume_parent()
 
+    @property
+    def ext(self) -> str:
+        return os.path.splitext(self.path)[-1][1:]
+
     @classmethod
     def from_path(cls, path: pathLike):
         if path.endswith("/") or path.endswith("\\"):

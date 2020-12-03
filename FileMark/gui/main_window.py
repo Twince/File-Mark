@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 
 # UI 파일 연결
 # 단, UI 파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
-from FileMark.filters import contain_name
+from FileMark.filters import find_ext, contains_name
 from FileMark.model import Directory, FileOrDirectory
 from FileMark.model.file import finder
 
@@ -15,10 +15,10 @@ from FileMark.model.file import finder
 
 form_class = uic.loadUiType("FileMark/gui/resources/ui/new start.ui")[0]
 SEARCH_FUNCTIONS = {
-    0: contain_name,  # 이름
+    0: contains_name,  # 이름
     1: None,  # 날짜
     2: None,  # 크기
-    3: None,  # 확장자
+    3: find_ext,  # 확장자
     4: None  # 사용빈도
 }
 
@@ -62,7 +62,7 @@ class WindowClass(QMainWindow, form_class):
         # 검색한 파일 이름 저장
         Search = self.FileSearch.text()
         print("검색 시작" + str(Search))
-        print(self.comboBox.currentIndex())
+        filter_func = SEARCH_FUNCTIONS[self.comboBox.currentIndex()]
 
         self.treeWidget = QTreeWidget(self)
         self.treeWidget.clear()
@@ -81,7 +81,7 @@ class WindowClass(QMainWindow, form_class):
         self.treeWidget.move(23, 150)
 
         # 트리위젯
-        self.treeList(Search)
+        self.treeList(Search, filter_func=filter_func)
 
         # 파일 검색 위치
         self.FileDir.returnPressed.connect(self.reSearch)
@@ -99,7 +99,7 @@ class WindowClass(QMainWindow, form_class):
             self.fd_cwd = search  # 파일 경로로 설정 (파일이라면 찾을게 없음!)
 
     # 트리 나무 뷰 화면
-    def treeList(self, search):
+    def treeList(self, search, filter_func=None):
         print("\n\n\n트리 생성")
 
         # 트리위젯 초기화
@@ -108,11 +108,12 @@ class WindowClass(QMainWindow, form_class):
         self.reSearch()
 
         # 검색할 파일 이름과 비슷한 파일경로 리스트 저장
-        searchFileRoutes = searchFile(self.fd_cwd, search)
         self.treeWidget.setHeaderLabels(["파일"])
+        candidates = searchFile(self.fd_cwd, search)
+        if filter_func:
+            candidates = filter(lambda x: filter_func(search, finder(os.path.join(self.fd_cwd, x))), candidates)
 
-        # 기본적으로 현재 파일 표시
-        for route in searchFileRoutes:
+        for route in candidates:
             absName = os.path.join(self.fd_cwd, route)
             treeList = self.newTreeList(absName)
             self.treeWidget.addTopLevelItem(treeList)
