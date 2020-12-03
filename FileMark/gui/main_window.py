@@ -5,11 +5,22 @@ from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
 
-# from PyQt5.QtCore import Qt # 사용되지 않음
-
 # UI 파일 연결
 # 단, UI 파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
+from FileMark.filters import contain_name
+from FileMark.model import Directory, FileOrDirectory
+from FileMark.model.file import finder
+
+# from PyQt5.QtCore import Qt # 사용되지 않음
+
 form_class = uic.loadUiType("FileMark/gui/resources/ui/new start.ui")[0]
+SEARCH_FUNCTIONS = {
+    0: contain_name,  # 이름
+    1: None,  # 날짜
+    2: None,  # 크기
+    3: None,  # 확장자
+    4: None  # 사용빈도
+}
 
 
 def searchFile(path, name=""):
@@ -51,6 +62,7 @@ class WindowClass(QMainWindow, form_class):
         # 검색한 파일 이름 저장
         Search = self.FileSearch.text()
         print("검색 시작" + str(Search))
+        print(self.comboBox.currentIndex())
 
         self.treeWidget = QTreeWidget(self)
         self.treeWidget.clear()
@@ -106,20 +118,13 @@ class WindowClass(QMainWindow, form_class):
             self.treeWidget.addTopLevelItem(treeList)
 
     # 항목의 하위 항목들을 검색해 트리를 생성함
-    def newTreeList(self, absName):
+    def newTreeList(self, absName: typing.Union[FileOrDirectory, str]):
         # print("\n\n상위 폴더 생성===================================================")
-        liName = os.path.basename(absName)  # 상위 항목의 이름
-        liItems = []  # 하위 항목 리스트
-
-        item = FMTreeWidgetItem([liName])  # 상위 항목 생성
-
-        try:
-            liItems = os.listdir(absName)  # 상위 항목의 하위 항목 리스트를 저장
-        except:
-            pass
+        now = finder(absName) if isinstance(absName, str) else absName
+        item = FMTreeWidgetItem([now.name])  # 상위 항목 생성
 
         # 파일/ 폴더에 따라 아이콘 변경
-        if os.path.isdir(absName):
+        if isinstance(now, Directory):
             item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/이동.png")))
         else:
             item.setIcon(0, QIcon(QPixmap("FileMark/gui/resources/icons/Copy.png")))
@@ -127,18 +132,16 @@ class WindowClass(QMainWindow, form_class):
         # print("하위 폴더 생성=================================")
         # print(liName)
         # print("폴더 생성 list=>" + liItems)
-        for subItem in liItems:  # 하위 항목 리스트 순회
-            # print("\n파일경로 :" + absSubItem)
-            # print(str(subItem) + "은 ", end="")
+        if isinstance(now, Directory):
+            for subItem in now.children:  # 하위 항목 리스트 순회
+                # print("\n파일경로 :" + absSubItem)
+                # print(str(subItem) + "은 ", end="")
 
-            # 자식 절대경로 = 부모 절대경로 \ 자식 이름 (파일/폴더 구분, 재귀때 사용)
-            absSubItem = os.path.join(absName, subItem)
+                # 하위 항목들 하나하나 트리로 만듦
+                child = self.newTreeList(subItem)
 
-            # 하위 항목들 하나하나 트리로 만듦
-            child = self.newTreeList(absSubItem)
-
-            # 생성된 하위 항목 또는 하위 항목의 트리를 상위 항목의 자식으로 추가
-            item.addChild(child)
+                # 생성된 하위 항목 또는 하위 항목의 트리를 상위 항목의 자식으로 추가
+                item.addChild(child)
 
         return item  # 하위 항목들의 탐색을 끝낸 상위 항목을 반환
 
