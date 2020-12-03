@@ -1,3 +1,18 @@
+try:
+    import dateutil
+except ModuleNotFoundError:
+    import subprocess
+    import sys
+
+
+    def install(package):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+
+    install("python-dateutil")
+finally:
+    import dateutil
+
 import sys
 
 from PyQt5.QtWidgets import QApplication
