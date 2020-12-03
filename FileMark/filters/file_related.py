@@ -14,7 +14,6 @@ def contains_name(query: str, f: FileOrDirectory, case_sensitive=False):
 
 
 def find_ext(query: str, f: FileOrDirectory, case_sensitive=False, match_full=True):
-    print(f.ext)
     return \
         not query or (query and (
                 match_full and (
@@ -30,8 +29,6 @@ def find_ext(query: str, f: FileOrDirectory, case_sensitive=False, match_full=Tr
 
 
 def in_duration(query: str, f: FileOrDirectory, field="mtime"):
-    print("Q", query, f)
-
     if not query:
         return True
 
