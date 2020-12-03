@@ -1,4 +1,8 @@
-from FileMark.model import FileOrDirectory
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
+
+from FileMark.model import FileOrDirectory, Directory
 
 
 def contains_name(query: str, f: FileOrDirectory, case_sensitive=False):
@@ -23,3 +27,33 @@ def find_ext(query: str, f: FileOrDirectory, case_sensitive=False, match_full=Tr
                               or (not case_sensitive and query.lower() in f.ext.lower())
                       )
                       ))
+
+
+def in_duration(query: str, f: FileOrDirectory, field="mtime"):
+    print("Q", query, f)
+
+    if not query:
+        return True
+
+    assert field in ("mtime", "ctime", "atime")
+
+    delta = relativedelta(seconds=0)
+    for x in query.split(" "):
+        if x[-1] == "d":
+            delta += relativedelta(days=int(x[:-1]))
+        elif x[-1] == "w":
+            delta += relativedelta(weeks=int(x[:-1]))
+        elif x[-1] == "m":
+            delta += relativedelta(months=int(x[:-1]))
+
+    val = datetime.utcfromtimestamp(0)
+    if field == "ctime":
+        val = f.ctime
+    elif isinstance(f, Directory):
+        return True
+    elif field == "mtime":
+        val = f.mtime
+    elif field == "atime":
+        val = f.atime
+
+    return not query or (query and val >= datetime.now() - delta)

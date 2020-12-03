@@ -1,1 +1,1 @@
-from .file_related import contains_name, find_ext
+from .file_related import contains_name, find_ext, in_duration
