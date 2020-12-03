@@ -1,9 +1,9 @@
-import sys
 import os
+import sys
 
+from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import *
-from PyQt5 import uic
 
 # from PyQt5.QtCore import Qt # 사용되지 않음
 
@@ -108,9 +108,9 @@ class WindowClass(QMainWindow, form_class):
 
         # 파일/ 폴더에 따라 아이콘 변경
         if os.path.isdir(absName):
-            item.setIcon(0, QIcon(QPixmap("Icons\\이동.png")))
+            item.setIcon(0, QIcon(QPixmap("resources/icons/이동.png")))
         else:
-            item.setIcon(0, QIcon(QPixmap("Icons\\Copy.png")))
+            item.setIcon(0, QIcon(QPixmap("resources/icons/Copy.png")))
 
         # print("하위 폴더 생성=================================")
         # print(liName)
