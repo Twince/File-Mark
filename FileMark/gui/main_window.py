@@ -1,4 +1,5 @@
 import os
+import typing
 
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon, QPixmap
@@ -20,6 +21,16 @@ def searchFile(path, name=""):
             templist.append(file_name)
 
     return templist
+
+
+class FMTreeWidgetItem(QTreeWidgetItem):
+
+    def data(self, column: int, role: int) -> typing.Any:
+        data = super().data(column, role)
+        if data:
+            # print(datetime.now(), self.child(0), column, role, data)
+            pass
+        return data
 
 
 # 화면을 띄우는데 사용되는 Class 선언
@@ -98,7 +109,7 @@ class WindowClass(QMainWindow, form_class):
         liName = os.path.basename(absName)  # 상위 항목의 이름
         liItems = []  # 하위 항목 리스트
 
-        item = QTreeWidgetItem([liName])  # 상위 항목 생성
+        item = FMTreeWidgetItem([liName])  # 상위 항목 생성
 
         try:
             liItems = os.listdir(absName)  # 상위 항목의 하위 항목 리스트를 저장
