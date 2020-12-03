@@ -2,6 +2,7 @@ import os
 import traceback
 
 import typing
+from datetime import datetime
 from os import PathLike
 
 pathLike = typing.Union[str, PathLike]
@@ -43,6 +44,10 @@ class AbstractFile:
     @property
     def ext(self) -> str:
         return os.path.splitext(self.path)[-1][1:]
+
+    @property
+    def ctime(self) -> datetime:
+        return datetime.fromtimestamp(os.path.getctime(self.path))
 
     @classmethod
     def from_path(cls, path: pathLike):
@@ -141,6 +146,14 @@ class File(AbstractFile):
     @property
     def size(self) -> int:
         return os.path.getsize(self.path)
+
+    @property
+    def mtime(self) -> datetime:
+        return datetime.fromtimestamp(os.path.getmtime(self.path))
+
+    @property
+    def atime(self) -> datetime:
+        return datetime.fromtimestamp(os.path.getatime(self.path))
 
     def __init__(self, name: str, base: pathLike) -> None:
         super().__init__(name, base)
